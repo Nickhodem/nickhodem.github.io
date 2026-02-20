@@ -11,6 +11,8 @@ const eslintConfig = defineConfig([
     "build/**",
     "next-env.d.ts",
     "ike-comparison.tsx",
+    "brainy-bio-box/**",
+    "docs/**",
   ]),
 ]);
 
