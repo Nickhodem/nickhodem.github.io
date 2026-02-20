@@ -1,9 +1,9 @@
-import { Eye, Brain, Car, Cpu, FlaskConical } from "lucide-react";
+import { Bus, Brain, Car, Eye, Plane, FlaskConical } from "lucide-react";
 import RevealSection from "./RevealSection";
 
 const experience = [
   {
-    icon: Eye,
+    icon: Bus,
     role: "Senior Machine Learning Engineer",
     org: "Luxoft / Hayden AI",
     detail: "Training CV models for traffic situation awareness; enhancing localization with vision embeddings; AWS/SQL for operational data",
@@ -17,7 +17,7 @@ const experience = [
     current: false,
   },
   {
-    icon: Cpu,
+    icon: Plane,
     role: "R&D Developer",
     org: "Flytech UAV",
     detail: "SLAM for UAVs (vision + LiDAR); Ground Control Station; spatial products from UAV imagery",
