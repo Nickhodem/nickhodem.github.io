@@ -17,9 +17,9 @@ const ARTICLES: { title: string; href: string; date: string }[] = [
 ];
 
 const LINKS = [
-  { label: "GitHub", href: "https://github.com/nikodem-pankiewicz", icon: "GH" },
+  { label: "GitHub", href: "https://github.com/nickhodem", icon: "GH" },
   { label: "LinkedIn", href: "https://linkedin.com/in/nikodem-pankiewicz", icon: "in" },
-  { label: "Email", href: "mailto:nikodem@example.com", icon: "@" },
+  { label: "Email", href: "mailto:nickhodem@gmail.com", icon: "@" },
 ];
 
 export default function HomePage() {

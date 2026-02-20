@@ -7,7 +7,10 @@ build:
 start:
 	npm run start
 
+deploy:
+	npm run build && npx gh-pages -d out
+
 format:
 	npx eslint . --fix
 
-.PHONY: dev build start format
+.PHONY: dev build start deploy format
