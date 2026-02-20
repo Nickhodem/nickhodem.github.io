@@ -2,9 +2,9 @@ import { Github, Linkedin, Mail } from "lucide-react";
 import RevealSection from "./RevealSection";
 
 const links = [
-  { icon: Mail, label: "email", href: "mailto:hello@example.com" },
-  { icon: Github, label: "github", href: "#" },
-  { icon: Linkedin, label: "linkedin", href: "#" },
+  { icon: Mail, label: "email", href: "mailto:nickhodem@gmail.com" },
+  { icon: Github, label: "github", href: "https://github.com/nickhodem" },
+  { icon: Linkedin, label: "linkedin", href: "https://linkedin.com/in/nikodem-pankiewicz" },
 ];
 
 const ContactSection = () => {
