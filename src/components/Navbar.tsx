@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const links = ["mission", "bio", "projects", "contact"];
@@ -14,7 +15,7 @@ const Navbar = () => {
         <a href="#" className="font-mono text-primary font-bold text-lg tracking-tight hover:glow-text transition-all">
           self.__init__()
         </a>
-        <div className="hidden sm:flex gap-8">
+        <div className="hidden sm:flex gap-8 items-center">
           {links.map((link, i) => (
             <motion.a
               key={link}
@@ -28,6 +29,18 @@ const Navbar = () => {
               <span className="absolute -bottom-1 left-0 w-0 h-px bg-primary group-hover:w-full transition-all duration-300" />
             </motion.a>
           ))}
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 + links.length * 0.1 }}
+          >
+            <Link
+              to="/ike-comparison"
+              className="font-mono text-sm px-3 py-1 rounded-md border border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/50 transition-all duration-200"
+            >
+              tools
+            </Link>
+          </motion.div>
         </div>
       </div>
     </motion.nav>
