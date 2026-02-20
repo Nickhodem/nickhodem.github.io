@@ -3,36 +3,38 @@ import RevealSection from "./RevealSection";
 
 const projects = [
   {
-    title: "Autonomous Vehicle RL Controller",
-    description: "End-to-end reinforcement learning for lateral and longitudinal control of self-driving vehicles. PPO-based agent with Sim2Real transfer.",
-    tags: ["PyTorch", "CARLA", "PPO", "Sim2Real"],
-    status: "published",
+    title: "Attribution Analysis of RL-Based Highway Driver",
+    description: "Published in Electronics (MDPI), 2022. Attribution analysis using Shapley values of RL policies for highway driving behavior.",
+    tags: ["Reinforcement Learning", "Explainability", "PyTorch", "MDPI"],
+    status: "paper",
+    href: "https://doi.org/10.3390/electronics11213599",
   },
   {
-    title: "Urban CV Intelligence Pipeline",
-    description: "Real-time multi-camera computer vision for smart city applications. Detection, tracking, and scene understanding at city scale.",
-    tags: ["Python", "OpenCV", "TensorRT", "CUDA"],
-    status: "production",
+    title: "Highway Pilot Training from Demonstration",
+    description: "Published at 25th IEEE MMAR, 2021. Imitation learning approach for training highway driving agents from expert demonstrations.",
+    tags: ["Imitation Learning", "PyTorch", "IEEE", "Highway Pilot"],
+    status: "paper",
+    href: "https://ieeexplore.ieee.org/abstract/document/9528436/",
   },
   {
-    title: "Neural Scene Understanding",
-    description: "Transformer-based joint semantic segmentation and depth estimation from monocular street-level imagery.",
-    tags: ["PyTorch", "ViT", "ONNX", "TorchScript"],
-    status: "research",
+    title: "Method and System for Planning the Motion of a Vehicle",
+    description: "Granted US Patent 11,584,393 (2023). ML-based vehicle trajectory planning for simultaneous nominal and abort trajectory optimization.",
+    tags: ["Motion Planning", "C++", "Automotive", "US Patent"],
+    status: "patent",
+    href: "https://patents.google.com/patent/US11584393B2",
   },
   {
-    title: "Distributed RL Training Framework",
-    description: "Scalable RL training with multi-agent environments, curriculum learning, and automated hyperparameter optimization.",
-    tags: ["Ray", "PyTorch", "Gymnasium", "W&B"],
-    status: "open-source",
+    title: "Driving Trajectory as Training Data for ML-Based ACC",
+    description: "US Patent Application 17/938,232 (2023). Method for generating driving trajectory training data for adaptive cruise control systems.",
+    tags: ["Adaptive Cruise", "ML Training", "Trajectory", "US Patent"],
+    status: "patent",
+    href: "https://scholar.google.com/citations?user=zxKsQgcAAAAJ&hl=pl",
   },
 ];
 
 const statusColors: Record<string, string> = {
-  production: "bg-primary/10 text-primary border-primary/20",
-  published: "bg-accent/10 text-accent border-accent/20",
-  research: "bg-secondary text-secondary-foreground border-border",
-  "open-source": "bg-primary/10 text-primary border-primary/20",
+  paper: "bg-accent/10 text-accent border-accent/20",
+  patent: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
 };
 
 const ProjectsSection = () => {
@@ -50,7 +52,12 @@ const ProjectsSection = () => {
         <div className="grid gap-5">
           {projects.map((project, i) => (
             <RevealSection key={project.title} delay={i * 0.1}>
-              <div className="border border-border rounded-xl p-7 bg-card card-hover group cursor-pointer">
+              <a
+                href={project.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block border border-border rounded-xl p-7 bg-card card-hover group cursor-pointer"
+              >
                 <div className="flex items-start justify-between mb-1">
                   <p className="font-mono text-xs text-muted-foreground">
                     <span className="text-primary">projects</span>[{i}] = {"{"}
@@ -63,7 +70,7 @@ const ProjectsSection = () => {
                   </div>
                 </div>
                 <h4 className="font-heading font-semibold text-lg text-foreground group-hover:text-primary transition-colors mb-2 pl-5">
-                  "{project.title}"
+                  &quot;{project.title}&quot;
                 </h4>
                 <p className="text-muted-foreground text-sm mb-5 leading-relaxed pl-5">
                   {project.description}
@@ -79,7 +86,7 @@ const ProjectsSection = () => {
                   ))}
                 </div>
                 <p className="font-mono text-xs text-muted-foreground mt-4">{"}"}</p>
-              </div>
+              </a>
             </RevealSection>
           ))}
         </div>
