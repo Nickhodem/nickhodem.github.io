@@ -1,0 +1,118 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    --background: 220 20% 4%;
+    --foreground: 160 10% 92%;
+
+    --card: 220 18% 8%;
+    --card-foreground: 160 10% 92%;
+
+    --popover: 220 18% 8%;
+    --popover-foreground: 160 10% 92%;
+
+    --primary: 160 80% 48%;
+    --primary-foreground: 220 20% 4%;
+
+    --secondary: 220 15% 12%;
+    --secondary-foreground: 160 10% 80%;
+
+    --muted: 220 15% 10%;
+    --muted-foreground: 220 10% 50%;
+
+    --accent: 180 70% 42%;
+    --accent-foreground: 220 20% 4%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 15% 14%;
+    --input: 220 15% 14%;
+    --ring: 160 80% 48%;
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 220 18% 6%;
+    --sidebar-foreground: 160 10% 92%;
+    --sidebar-primary: 160 80% 48%;
+    --sidebar-primary-foreground: 220 20% 4%;
+    --sidebar-accent: 220 15% 12%;
+    --sidebar-accent-foreground: 160 10% 92%;
+    --sidebar-border: 220 15% 14%;
+    --sidebar-ring: 160 80% 48%;
+
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+
+  code, pre, .font-mono {
+    font-family: var(--font-mono);
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(160 80% 48%), hsl(180 70% 42%), hsl(200 60% 50%));
+  }
+
+  .glow {
+    box-shadow: 0 0 30px hsl(160 80% 48% / 0.2), 0 0 80px hsl(160 80% 48% / 0.08);
+  }
+
+  .glow-strong {
+    box-shadow: 0 0 40px hsl(160 80% 48% / 0.3), 0 0 120px hsl(160 80% 48% / 0.1), 0 0 200px hsl(180 70% 42% / 0.05);
+  }
+
+  .glow-text {
+    text-shadow: 0 0 40px hsl(160 80% 48% / 0.4), 0 0 80px hsl(180 70% 42% / 0.2);
+  }
+
+  .border-glow {
+    border-color: hsl(160 80% 48% / 0.3);
+  }
+
+  .card-hover {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-hover:hover {
+    border-color: hsl(160 80% 48% / 0.4);
+    box-shadow: 0 0 30px hsl(160 80% 48% / 0.1), 0 8px 32px hsl(220 20% 4% / 0.4);
+    transform: translateY(-2px);
+  }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(hsl(160 80% 48% / 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, hsl(160 80% 48% / 0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .bg-radial-fade {
+    background: radial-gradient(ellipse 60% 50% at 50% 0%, hsl(160 80% 48% / 0.06) 0%, transparent 70%);
+  }
+}
