@@ -1,9 +1,21 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
+type NavItem =
+  | { kind: "anchor"; label: string; href: string }
+  | { kind: "route"; label: string; href: string };
+
 const Navbar = () => {
-  const links = ["mission", "bio", "projects", "contact"];
+  const allLinks: NavItem[] = [
+    { kind: "anchor", label: "mission", href: "/#mission" },
+    { kind: "anchor", label: "bio", href: "/#bio" },
+    { kind: "anchor", label: "projects", href: "/#projects" },
+    { kind: "anchor", label: "contact", href: "/#contact" },
+    { kind: "route", label: "blog", href: "/blog" },
+  ];
+
   const [open, setOpen] = useState(false);
 
   return (
@@ -14,24 +26,41 @@ const Navbar = () => {
       className="fixed top-0 left-0 right-0 z-50 bg-background/60 backdrop-blur-xl border-b border-border"
     >
       <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-        <a href="#" className="font-mono text-primary font-bold text-lg tracking-tight hover:glow-text transition-all">
+        <Link to="/" className="font-mono text-primary font-bold text-lg tracking-tight hover:glow-text transition-all">
           self.__init__()
-        </a>
+        </Link>
 
         {/* Desktop nav */}
         <div className="hidden sm:flex gap-8 items-center">
-          {links.map((link, i) => (
-            <motion.a
-              key={link}
-              href={`#${link}`}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 + i * 0.1 }}
-              className="font-mono text-sm text-muted-foreground hover:text-primary transition-colors relative group"
-            >
-              self.{link}
-              <span className="absolute -bottom-1 left-0 w-0 h-px bg-primary group-hover:w-full transition-all duration-300" />
-            </motion.a>
+          {allLinks.map((item, i) => (
+            item.kind === "anchor" ? (
+              <motion.a
+                key={item.label}
+                href={item.href}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 + i * 0.1 }}
+                className="font-mono text-sm text-muted-foreground hover:text-primary transition-colors relative group"
+              >
+                self.{item.label}
+                <span className="absolute -bottom-1 left-0 w-0 h-px bg-primary group-hover:w-full transition-all duration-300" />
+              </motion.a>
+            ) : (
+              <motion.div
+                key={item.label}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 + i * 0.1 }}
+              >
+                <Link
+                  to={item.href}
+                  className="font-mono text-sm text-muted-foreground hover:text-primary transition-colors relative group inline-block"
+                >
+                  self.{item.label}
+                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-primary group-hover:w-full transition-all duration-300" />
+                </Link>
+              </motion.div>
+            )
           ))}
         </div>
 
@@ -56,15 +85,26 @@ const Navbar = () => {
             className="sm:hidden border-t border-border bg-background/80 backdrop-blur-xl overflow-hidden"
           >
             <div className="flex flex-col px-6 py-4 gap-4">
-              {links.map((link) => (
-                <a
-                  key={link}
-                  href={`#${link}`}
-                  onClick={() => setOpen(false)}
-                  className="font-mono text-sm text-muted-foreground hover:text-primary transition-colors"
-                >
-                  self.{link}
-                </a>
+              {allLinks.map((item) => (
+                item.kind === "anchor" ? (
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setOpen(false)}
+                    className="font-mono text-sm text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    self.{item.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={item.label}
+                    to={item.href}
+                    onClick={() => setOpen(false)}
+                    className="font-mono text-sm text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    self.{item.label}
+                  </Link>
+                )
               ))}
             </div>
           </motion.div>
