@@ -12,16 +12,6 @@ const LangToggle = () => {
   return (
     <div className="flex items-center gap-1 font-mono text-sm border border-border rounded-md overflow-hidden">
       <button
-        onClick={() => setLang("pl")}
-        className={`px-3 py-1.5 transition-colors ${
-          lang === "pl"
-            ? "bg-primary text-primary-foreground"
-            : "text-muted-foreground hover:text-primary"
-        }`}
-      >
-        PL
-      </button>
-      <button
         onClick={() => setLang("en")}
         className={`px-3 py-1.5 transition-colors ${
           lang === "en"
@@ -30,6 +20,16 @@ const LangToggle = () => {
         }`}
       >
         EN
+      </button>
+      <button
+        onClick={() => setLang("pl")}
+        className={`px-3 py-1.5 transition-colors ${
+          lang === "pl"
+            ? "bg-primary text-primary-foreground"
+            : "text-muted-foreground hover:text-primary"
+        }`}
+      >
+        PL
       </button>
     </div>
   );

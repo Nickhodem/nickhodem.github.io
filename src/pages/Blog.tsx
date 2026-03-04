@@ -10,16 +10,6 @@ const LangToggle = () => {
   return (
     <div className="flex items-center gap-1 font-mono text-sm border border-border rounded-md overflow-hidden">
       <button
-        onClick={() => setLang("pl")}
-        className={`px-3 py-1.5 transition-colors ${
-          lang === "pl"
-            ? "bg-primary text-primary-foreground"
-            : "text-muted-foreground hover:text-primary"
-        }`}
-      >
-        PL
-      </button>
-      <button
         onClick={() => setLang("en")}
         className={`px-3 py-1.5 transition-colors ${
           lang === "en"
@@ -28,6 +18,16 @@ const LangToggle = () => {
         }`}
       >
         EN
+      </button>
+      <button
+        onClick={() => setLang("pl")}
+        className={`px-3 py-1.5 transition-colors ${
+          lang === "pl"
+            ? "bg-primary text-primary-foreground"
+            : "text-muted-foreground hover:text-primary"
+        }`}
+      >
+        PL
       </button>
     </div>
   );
@@ -54,7 +54,7 @@ const Blog = () => {
             <h1 className="text-4xl md:text-5xl font-bold font-heading tracking-tight mb-4">
               Writing
             </h1>
-            <p className="text-muted-foreground text-lg">
+            <p className="text-foreground/80 text-lg">
               Notes on machine learning, research, and things I find interesting.
             </p>
           </div>
@@ -71,7 +71,7 @@ const Blog = () => {
             className="border border-border rounded-lg p-12 text-center"
           >
             <p className="font-mono text-primary text-sm mb-3"># coming soon</p>
-            <p className="text-muted-foreground">Posts are on the way. Check back later.</p>
+            <p className="text-foreground/80">Posts are on the way. Check back later.</p>
           </motion.div>
         ) : (
           <div className="flex flex-col gap-6">
@@ -87,11 +87,11 @@ const Blog = () => {
                   className="block group border border-border hover:border-primary/40 rounded-lg p-6 transition-all duration-300 hover:bg-primary/5"
                 >
                   <div className="flex items-center gap-3 mb-3">
-                    <span className="font-mono text-xs text-muted-foreground">{post.date}</span>
+                    <span className="font-mono text-xs text-foreground/60">{post.date}</span>
                     {post.readingTime && (
                       <>
                         <span className="text-border">·</span>
-                        <span className="font-mono text-xs text-muted-foreground">
+                        <span className="font-mono text-xs text-foreground/60">
                           {post.readingTime}
                         </span>
                       </>
@@ -99,7 +99,7 @@ const Blog = () => {
                     {post.lang !== lang && (
                       <>
                         <span className="text-border">·</span>
-                        <span className="font-mono text-xs text-muted-foreground/60 italic">
+                        <span className="font-mono text-xs text-foreground/40 italic">
                           ({post.lang.toUpperCase()} only)
                         </span>
                       </>
@@ -111,7 +111,7 @@ const Blog = () => {
                   </h2>
 
                   {post.excerpt && (
-                    <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+                    <p className="text-foreground/70 text-sm leading-relaxed mb-4">
                       {post.excerpt}
                     </p>
                   )}
