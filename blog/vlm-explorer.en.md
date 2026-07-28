@@ -7,7 +7,7 @@ readingTime: 5 min read
 ---
 
 
-[Link: VLM Explorer](/vlm-explorer)
+[Link: VLM Explorer](/vlm-explorer/)
 
 
 I've always loved getting to know the design choices behind models: why an architecture is assembled the way it is, what each component contributes, and how one idea evolves into the next. Vision-language models make that especially rewarding to explore. The landscape moves fast, with dozens of models spanning very different task families, and most summaries either stay too high-level ("CLIP is a dual-encoder model") or go straight into paper-level math without a useful middle ground.
