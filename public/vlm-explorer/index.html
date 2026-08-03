@@ -345,6 +345,21 @@ html.light .view-tab.active{background:#fff}
 .gdino-downstream{display:flex;flex-direction:column;align-items:stretch;width:100%;margin-top:0}
 .gdino-downstream .arch-blk{margin-bottom:3px}
 
+/* ─── BAGEL TWO-TOWER ARCH LAYOUT ─── */
+.bagel-arch{display:grid;grid-template-columns:minmax(166px,1fr) minmax(210px,1.1fr) minmax(166px,1fr);gap:8px;align-items:start;padding:4px 0 12px;overflow-x:auto;min-width:570px}
+.bagel-tower{display:flex;flex-direction:column;align-items:stretch;min-width:0}
+.bagel-tower .arch-col-label{font-size:9px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;text-align:center;margin-bottom:6px;color:var(--text-muted)}
+.bagel-tower .arch-blk{margin-bottom:3px}
+.bagel-understanding-label{color:#5DCAA5;font-size:8.5px;font-weight:500;letter-spacing:.03em;text-align:center;margin-top:4px}
+.bagel-generation-label{color:#FAC775;font-size:8.5px;font-weight:500;letter-spacing:.03em;text-align:center;margin-top:4px}
+.bagel-bridge{display:flex;flex-direction:column;align-items:center;padding-top:98px;min-width:0}
+.bagel-bridge-row{display:flex;align-items:center;width:100%}
+.bagel-bridge-arrow{display:flex;align-items:center;flex:1;min-width:20px}
+.bagel-bridge-node{flex-shrink:0;min-width:150px}
+.bagel-bridge-node .arch-blk{padding:10px 11px;border-width:2px;border-radius:10px;box-shadow:0 0 0 3px rgba(0,0,0,.3),0 4px 20px rgba(0,0,0,.4);position:relative}
+.bagel-bridge-node .arch-blk::after{content:'';position:absolute;inset:-4px;border-radius:13px;border:1px solid var(--bd);opacity:.25;pointer-events:none}
+.bagel-bridge-label{font-size:8px;color:var(--text-muted);text-align:center;line-height:1.35;margin-top:7px;max-width:170px}
+
 /* ─── LLAVA ARCH LAYOUT ─── */
 .llava-arch{display:grid;grid-template-columns:1fr auto 1fr;gap:0 4px;align-items:center;padding:4px 0 8px;overflow-x:auto}
 .llava-col{display:flex;flex-direction:column;align-items:stretch;gap:0}
@@ -510,7 +525,7 @@ const CATS = [
     pillBg:'#2C1208', pillBd:'#D85A30', pillTx:'#F0997B',
     headerGrad:'#D85A30,#F0997B',
     desc:'Synthesize photorealistic or stylized images from text prompts.',
-    models:['DALL-E 3','Stable Diffusion 3','FLUX','Imagen 3','Parti'],
+    models:['DALL-E 3','Stable Diffusion 3','FLUX','BAGEL','Imagen 3','Parti'],
     arch:'Diffusion model or autoregressive decoder conditioned on text encoder (CLIP / T5)',
     output:'Raster images',
     strength:'Creative synthesis, data augmentation',
@@ -2044,6 +2059,49 @@ const MODELS = {
     },
   },
 
+  'BAGEL': {
+    category:'generation', task:'Unified Multimodal Understanding, Image Generation & Editing',
+    tagBg:'#2C1208', tagBd:'#D85A30', tagTx:'#F0997B',
+    year:'2025', org:'ByteDance Seed', paper:'Emerging Properties in Unified Multimodal Pretraining',
+    paperUrl:'https://arxiv.org/abs/2505.14683', hfId:'ByteDance-Seed/BAGEL-7B-MoT',
+    overview:`BAGEL is an open-source, decoder-only multimodal foundation model that natively combines image understanding, text-to-image generation, and image editing. Its Mixture-of-Transformer-Experts (MoT) architecture uses separate understanding and generation experts that share self-attention across one interleaved token sequence. A SigLIP2 encoder supplies semantic visual tokens, while a FLUX VAE represents images as latents that BAGEL generates with rectified flow.`,
+    novelty:[
+      'Mixture-of-Transformers (MoT): full, modality-specific understanding and generation experts share self-attention at every layer',
+      'Bottleneck-free interleaved context: text, vision-encoder, and VAE tokens interact directly rather than through a small adapter',
+      'Generalized causal attention supports interleaved text/image generation and image editing with cached multimodal context',
+      'Trained on large-scale text, image, video, and web data, enabling free-form editing, multiview synthesis, and future-frame prediction',
+    ],
+    limits:[
+      '14B total parameters (7B active) still requires substantial GPU memory for local inference',
+      'Generation and understanding quality can trail specialist models on some individual tasks',
+      'Image generation uses iterative rectified-flow denoising rather than single-pass decoding',
+      'Advanced world-modeling abilities are demonstrated primarily through research benchmarks and qualitative examples',
+    ],
+    archType:'bagel',
+    archBlocks:[
+      {id:'inputs',col:'left',label:'Text + Reference Image',sub:'prompt, question, or edit instruction',theme:'t-lang'},
+      {id:'siglip',col:'left',label:'SigLIP2 Vision Encoder',sub:'image → semantic visual tokens',theme:'t-enc'},
+      {id:'understand',col:'left',label:'Understanding Expert (7B)',sub:'text + visual tokens → multimodal reasoning',theme:'t-dec'},
+      {id:'shared',col:'center',label:'Shared Self-Attention ★',sub:'every layer exchanges text, visual, and latent context',theme:'t-cross'},
+      {id:'latents',col:'right',label:'Image Latents',sub:'noise for T2I / VAE-encoded reference for editing',theme:'t-img'},
+      {id:'generate',col:'right',label:'Generation Expert (7B)',sub:'VAE tokens + shared context',theme:'t-dec'},
+      {id:'flow',col:'right',label:'Rectified-Flow Denoising',sub:'iterative latent refinement',theme:'t-dec'},
+      {id:'vae_dec',col:'right',label:'FLUX VAE Decoder',sub:'clean latent → RGB image',theme:'t-proj'},
+      {id:'out',col:'right',label:'Generated / Edited Image',sub:'text-to-image or transformation',theme:'t-out'},
+    ],
+    archInfo:{
+      inputs:{title:'Interleaved Multimodal Context',body:'A request can combine text with one or more images. Previous images, their associated text, and newly generated images remain in one ordered context, allowing the model to use a reference image for editing or to generate a sequence of related images.',chips:[{l:'modalities',s:'text + images'},{l:'tasks',s:'generation, editing, understanding'}],kv:{Key_idea:'one shared multimodal context'}},
+      siglip:{title:'SigLIP2 Understanding Encoder',body:'A SigLIP2 ViT converts input images into semantic visual tokens for understanding and for conditioning later generation. BAGEL supports native image aspect ratios with NaViT and accepts inputs up to 980×980.',chips:[{l:'backbone',s:'SigLIP2 So400M/14'},{l:'max input',s:'980×980'}],kv:{Role:'semantic image understanding'}},
+      understand:{title:'Understanding Tower — Where Meaning Emerges',body:'The understanding expert receives text tokens alongside SigLIP2 visual tokens. This is where BAGEL forms semantic visual-language representations: it can answer questions about an image, interpret a reference image, and turn an edit instruction into a grounded multimodal plan.',chips:[{l:'inputs',s:'text + SigLIP2 tokens'},{l:'active params',s:'7B'}],kv:{Handles:'text and ViT tokens',Emergence:'visual-language understanding and reasoning'}},
+      shared:{title:'Shared Self-Attention — The Bridge Between Towers',body:'BAGEL has two full transformer experts, but not two isolated models. At every layer they share self-attention over the same interleaved context. The understanding tower can therefore pass language intent and semantic image information directly to the generation tower, without compressing it through a small connector.',chips:[{l:'scope',s:'every transformer layer'},{l:'context',s:'text + ViT + VAE tokens'}],kv:{Design:'bottleneck-free integrated transformer',Signal_flow:'understanding ↔ generation'}},
+      latents:{title:'Generation-Side Image Latents',body:'For text-to-image generation, this tower begins with noised VAE latents. For image editing, the supplied image is first mapped through a frozen FLUX VAE into the same 16-channel latent space. A 2×2 patch embedding turns the latents into transformer tokens.',chips:[{l:'latent channels',s:'16'},{l:'downsampling',s:'8×'}],kv:{Text_to_image:'start from noise',Image_editing:'start from VAE-encoded reference'}},
+      generate:{title:'Generation Tower — Where Images Are Formed',body:'The generation expert exclusively processes VAE latent tokens. Through the shared-attention bridge it continuously receives the language intent and visual understanding built in the other tower, then transforms those signals into a denoising direction in image-latent space.',chips:[{l:'input',s:'VAE latent tokens'},{l:'active params',s:'7B'}],kv:{Handles:'generation tokens',Conditioning:'shared attention to understanding tower'}},
+      flow:{title:'Rectified-Flow Generation',body:'The generation expert predicts the rectified-flow velocity for noised VAE tokens. Iterative denoising transforms latent noise into an image while attending to the text and visual context, enabling both text-to-image synthesis and reference-guided editing.',chips:[{l:'objective',s:'velocity prediction (MSE)'},{l:'space',s:'VAE latent'}],kv:{Conditioning:'shared attention to text + image context'}},
+      vae_dec:{title:'FLUX VAE Decoder',body:'The frozen FLUX VAE decodes the final clean 16-channel latent into an RGB image.',chips:[{l:'decoder',s:'FLUX VAE'}],kv:{Output:'pixel-space RGB'}},
+      out:{title:'Generated or Edited Image',body:'BAGEL outputs an image from text alone or transforms a supplied image using text and visual context. The same model can subsequently inspect or use that image in a longer multimodal sequence.',chips:[{l:'modes',s:'T2I + editing'},{l:'context',s:'supports multi-image sequences'}],kv:{Also_supports:'multimodal understanding'}},
+    },
+  },
+
   'Imagen 3': {
     category:'generation', task:'Cascaded Pixel+Latent Diffusion for Photorealism',
     tagBg:'#2C1208', tagBd:'#D85A30', tagTx:'#F0997B',
@@ -2627,6 +2685,7 @@ const PARAMS = {
   'DALL-E 3':           { total:'~6B',     breakdown:'T5-XXL: 11B text enc + U-Net diffusion: ~6B (estimated)', note:'OpenAI has not published exact counts' },
   'Stable Diffusion 3': { total:'~2B',     breakdown:'MMDiT: ~2B + T5-XXL: 11B (enc only) + VAE: ~84M', note:'Medium: 2B; architecture: 2.5B announced' },
   'FLUX':               { total:'~12B',    breakdown:'Flux Transformer: ~12B + T5-XXL: 11B (enc only) + CLIP-L: ~123M', note:'schnell and dev variants both 12B' },
+  'BAGEL':              { total:'14B / 7B active', breakdown:'Qwen2.5-7B-based MoT: two full 7B transformer experts; SigLIP2 encoder + FLUX VAE', note:'Only one expert is active per token; the vision encoder and VAE are frozen' },
   'Imagen 3':           { total:'~5B',     breakdown:'Base diffusion + SR1 + SR2 stages (est. total ~5B)',  note:'Google has not published exact counts' },
   'Parti':              { total:'~20B',    breakdown:'ViT text enc: ~1B + seq2seq transformer: ~20B',        note:'' },
   // ── Documents ──
@@ -2831,6 +2890,12 @@ const LICENSE = {
     "avail": "open",
     "commercial": true,
     "license": "Apache 2.0 (schnell); dev: non-commercial",
+    "weights": "Public (HF)"
+  },
+  "BAGEL": {
+    "avail": "open",
+    "commercial": true,
+    "license": "Apache 2.0",
     "weights": "Public (HF)"
   },
   "Imagen 3": {
@@ -3192,6 +3257,52 @@ function renderGDinoArch(model) {
   </div>`;
 }
 
+function renderBagelArch(model) {
+  const left   = model.archBlocks.filter(b => b.col === 'left');
+  const center = model.archBlocks.find(b => b.col === 'center');
+  const right  = model.archBlocks.filter(b => b.col === 'right');
+
+  function blk(b) {
+    return `<div class="arch-blk ${b.theme}" data-id="${b.id}" onclick="selectBlock('${b.id}',this)">
+      <div class="arch-blk-name">${b.label}</div>
+      <div class="arch-blk-sub">${b.sub}</div>
+    </div>`;
+  }
+  function tower(blocks) {
+    return blocks.map((b,i) => (i > 0 ? upArrowSVG() : '') + blk(b)).join('');
+  }
+
+  const arrowRight = `<svg width="38" height="16" viewBox="0 0 38 16" fill="none">
+    <path d="M0 8 L26 8" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" stroke-dasharray="3 2"/>
+    <path d="M26 3 L34 8 L26 13" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
+  const arrowLeft = `<svg width="38" height="16" viewBox="0 0 38 16" fill="none">
+    <path d="M38 8 L12 8" stroke="rgba(255,255,255,0.18)" stroke-width="1.5" stroke-dasharray="3 2"/>
+    <path d="M12 3 L4 8 L12 13" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
+
+  return `<div class="bagel-arch">
+    <div class="bagel-tower">
+      <div class="arch-col-label">Understanding tower</div>
+      ${tower(left)}
+      <div class="bagel-understanding-label">visual + language understanding emerges here</div>
+    </div>
+    <div class="bagel-bridge">
+      <div class="bagel-bridge-row">
+        <div class="bagel-bridge-arrow">${arrowRight}</div>
+        <div class="bagel-bridge-node">${blk(center)}</div>
+        <div class="bagel-bridge-arrow">${arrowLeft}</div>
+      </div>
+      <div class="bagel-bridge-label">signals exchange at every transformer layer</div>
+    </div>
+    <div class="bagel-tower">
+      <div class="arch-col-label">Generation tower</div>
+      ${tower(right)}
+      <div class="bagel-generation-label">visual synthesis emerges here</div>
+    </div>
+  </div>`;
+}
+
 function renderLocateAnythingArch(model) {
   const B = model.archBlocks;
   const get = id => B.find(b => b.id === id);
@@ -3371,7 +3482,7 @@ function showModel(name) {
   const commLabel  = lic.commercial === true ? '✓ Commercial OK' : lic.commercial === 'restricted' ? '⚠ Restricted' : '✕ Non-commercial only';
   const commClass  = lic.commercial === true ? 'commercial-yes' : lic.commercial === 'restricted' ? 'commercial-restricted' : 'commercial-no';
 
-  const archHTML = m.archType === 'dual' ? renderDualArch(m) : m.archType === 'llava' ? renderLLaVAArch(m) : m.archType === 'gdino' ? renderGDinoArch(m) : m.archType === 'locateanything' ? renderLocateAnythingArch(m) : renderLinearArch(m);
+  const archHTML = m.archType === 'dual' ? renderDualArch(m) : m.archType === 'llava' ? renderLLaVAArch(m) : m.archType === 'gdino' ? renderGDinoArch(m) : m.archType === 'bagel' ? renderBagelArch(m) : m.archType === 'locateanything' ? renderLocateAnythingArch(m) : renderLinearArch(m);
 
   document.getElementById('model-detail-content').innerHTML = `
     <div class="model-hero">

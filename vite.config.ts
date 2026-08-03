@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
+import fs from "node:fs";
 import path from "path";
 
 export default defineConfig({
@@ -11,7 +12,26 @@ export default defineConfig({
       overlay: false,
     },
   },
-  plugins: [react()],
+  plugins: [
+    {
+      name: "serve-vlm-explorer-index",
+      configureServer(server) {
+        server.middlewares.use((req, res, next) => {
+          const pathname = req.url?.split("?", 1)[0];
+
+          if (pathname !== "/vlm-explorer/" && pathname !== "/vlm-explorer") {
+            next();
+            return;
+          }
+
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "text/html; charset=utf-8");
+          res.end(fs.readFileSync(path.resolve(__dirname, "public/vlm-explorer/index.html")));
+        });
+      },
+    },
+    react(),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
