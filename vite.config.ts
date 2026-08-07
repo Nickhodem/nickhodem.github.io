@@ -14,19 +14,26 @@ export default defineConfig({
   },
   plugins: [
     {
-      name: "serve-vlm-explorer-index",
+      name: "serve-static-interactive-pages",
       configureServer(server) {
         server.middlewares.use((req, res, next) => {
           const pathname = req.url?.split("?", 1)[0];
+          const staticPages: Record<string, string> = {
+            "/vlm-explorer": "vlm-explorer/index.html",
+            "/vlm-explorer/": "vlm-explorer/index.html",
+            "/vlm-family-tree": "vlm-family-tree/index.html",
+            "/vlm-family-tree/": "vlm-family-tree/index.html",
+          };
+          const page = staticPages[pathname ?? ""];
 
-          if (pathname !== "/vlm-explorer/" && pathname !== "/vlm-explorer") {
+          if (!page) {
             next();
             return;
           }
 
           res.statusCode = 200;
           res.setHeader("Content-Type", "text/html; charset=utf-8");
-          res.end(fs.readFileSync(path.resolve(__dirname, "public/vlm-explorer/index.html")));
+          res.end(fs.readFileSync(path.resolve(__dirname, "public", page)));
         });
       },
     },

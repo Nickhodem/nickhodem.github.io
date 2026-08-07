@@ -3,13 +3,6 @@ import RevealSection from "./RevealSection";
 
 const projects = [
   {
-    title: "VLM Landscape — Interactive Reference",
-    description: "An interactive reference for exploring the vision-language model landscape, including model categories, timelines, architecture diagrams, and key trade-offs.",
-    tags: ["Vision-Language Models", "Interactive", "AI Research", "Reference"],
-    status: "explorer",
-    href: "/vlm-explorer/",
-  },
-  {
     title: "Attribution Analysis of RL-Based Highway Driver",
     description: "Published in Electronics (MDPI), 2022. Attribution analysis using Shapley values of RL policies for highway driving behavior.",
     tags: ["Reinforcement Learning", "Explainability", "PyTorch", "MDPI"],

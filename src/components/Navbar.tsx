@@ -12,6 +12,7 @@ const Navbar = () => {
     { kind: "anchor", label: "mission", href: "/#mission" },
     { kind: "anchor", label: "bio", href: "/#bio" },
     { kind: "anchor", label: "projects", href: "/#projects" },
+    { kind: "anchor", label: "links", href: "/#links" },
     { kind: "anchor", label: "contact", href: "/#contact" },
     { kind: "route", label: "blog", href: "/blog" },
   ];
